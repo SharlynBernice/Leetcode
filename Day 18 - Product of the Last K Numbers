@@ -1,0 +1,22 @@
+class ProductOfNumbers {
+    ArrayList<Integer> nums = new ArrayList<>();
+    int p = 1;
+    public ProductOfNumbers() {
+        
+    }
+    public void add(int n) {
+        if (n == 0) {
+            nums = new ArrayList<>();
+            p = 1;
+            return;
+        }
+        p *= n;
+        nums.add(p);
+    }
+    public int getProduct(int k) {
+        if (nums.size() < k) return 0;
+        int res = nums.get(nums.size() - 1);
+        if (nums.size() == k) return res;
+        return res / nums.get(nums.size() - 1 - k);
+    }
+}
