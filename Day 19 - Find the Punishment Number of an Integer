@@ -1,0 +1,22 @@
+class Solution{
+    public int punishmentNumber(int n){
+        int sum=0;
+        for(int i=1;i<=n;i++){
+            int sq=i*i;
+            if(split(String.valueOf(sq),0,i)){
+                sum+=sq;
+            }
+        }
+        return sum;
+    }
+    private boolean split(String s,int idx,int tgt){
+        if(idx==s.length()) return tgt==0;
+        int num=0;
+        for(int i=idx;i<s.length();i++){
+            num =num*10+(s.charAt(i)-'0');
+            if(num>tgt) return false;
+            if(split(s,i+1,tgt-num)) return true;
+        }
+        return false;
+    }
+}
