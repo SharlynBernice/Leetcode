@@ -1,0 +1,13 @@
+class Solution {
+    public int minOperations(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for(int num : nums) if(num < k) pq.add(num);
+        int i=0;
+        while(pq.size()>1) {
+            int a=pq.poll(),b=pq.poll();
+            if(2L*a+b<k) pq.add((int)(2L*a+b));
+            i++;
+        }
+        return i+(pq.isEmpty() ? 0 : 1);
+    }
+}
