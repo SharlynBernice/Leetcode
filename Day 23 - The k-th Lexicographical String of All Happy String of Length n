@@ -1,0 +1,21 @@
+class Solution {
+    int len;
+    public String getHappyString(int n, int k) {
+        len=n;
+        return dfs(new StringBuilder(),n,k);
+    }
+    public String dfs(StringBuilder pre,int rem,int k) {
+        if (rem==0)
+            return pre.toString();
+        for (char ch='a';ch<='c';ch++) {
+            if (pre.length()>0 && ch==pre.charAt(pre.length()-1))
+                continue;
+            int count=(int)Math.pow(2,len-pre.length()-1);
+            if (count>=k)
+                return dfs(pre.append(ch),rem-1,k);
+            else
+                k-=count;
+        }
+        return "";
+    }
+}
