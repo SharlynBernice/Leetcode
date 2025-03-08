@@ -1,0 +1,24 @@
+class Solution {
+    public boolean areAlmostEqual(String s1, String s2) {
+        int i=-1,j=-1;
+        int count=0;
+        for(int ctr=0;ctr<s1.length();ctr++){
+            if(s1.charAt(ctr) != s2.charAt(ctr)){
+                count++;
+                if(i==-1){
+                    i=ctr;
+                }
+                j=ctr;
+            }
+        }
+        if(count==0){
+            return true;
+        }
+        else if(s1.charAt(i)==s2.charAt(j) && s1.charAt(j)==s2.charAt(i) && count==2){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+}
