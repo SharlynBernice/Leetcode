@@ -1,0 +1,19 @@
+class Solution {
+    public int maximumSum(int[] nums) {
+        int[] map=new int[82];
+        Arrays.fill(map, -1);
+        int max=-1;
+        for (int num : nums) {
+            int sum= 0, temp= num;
+            while(temp>0) {
+                sum+=temp%10;
+                temp/=10;
+            }
+            if(map[sum]!=-1){
+                max=Math.max(max, num + map[sum]);
+            }
+            map[sum]=Math.max(map[sum], num);
+        }
+        return max;
+    }
+}
