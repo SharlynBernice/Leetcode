@@ -1,0 +1,67 @@
+class Cell{
+    int row,col;
+    public Cell(int row,int col){
+        this.row = row;
+        this.col = col;
+    }
+}
+
+class Solution {
+    public void solveSudoku(char[][] board) {
+        int R = board.length;
+        int C = board[0].length;
+        int SIZE = board.length;
+        int SUBMATSIZE = 3;
+        int[] rowf = new int[SIZE];
+        int[] colf = new int[SIZE];
+        int[] subMatf = new int[SIZE];
+        for(int row=0;row<R;row++){
+            for(int col=0;col<C;col++){
+                if(board[row][col]!='.'){
+                    int dig = board[row][col]-'0';
+                    rowf[row]|=(1<<dig);
+                    colf[col]|=(1<<dig);
+                    int subidx = (row/SUBMATSIZE)*SUBMATSIZE + col/SUBMATSIZE;
+                    subMatf[subidx] |= (1<<dig);
+                }
+            }
+        }
+        solve(R,C,SUBMATSIZE,board,rowf,colf,subMatf);
+    }
+    private boolean solve(int R,int C,int SUBMATSIZE,char board[][],int rowf[],int colf[],int subMatf[]){
+        Cell toFill = getUnFilled(R,C,board);
+        if(toFill==null){
+            return true;
+        }
+        int submati = SUBMATSIZE*(toFill.row/SUBMATSIZE)+toFill.col/SUBMATSIZE;
+        for(int dig=1;dig<=9;dig++){
+            if ((rowf[toFill.row] & (1 << dig)) == 0 && 
+                (colf[toFill.col] & (1 << dig)) == 0 &&
+                (subMatf[submati] & (1 << dig)) == 0){
+                board[toFill.row][toFill.col]=(char)('0'+dig);
+                rowf[toFill.row]|=(1<<dig);
+                colf[toFill.col]|=(1<<dig);
+                subMatf[submati]|=(1<<dig);
+                boolean solved = solve(R,C,SUBMATSIZE,board,rowf,colf,subMatf);
+                if(solved){
+                    return true; 
+                }
+                board[toFill.row][toFill.col]='.';
+                rowf[toFill.row]^=(1<<dig);
+                colf[toFill.col]^=(1<<dig);
+                subMatf[submati]^=(1<<dig);
+            }
+        }
+        return false;
+    }
+    private Cell getUnFilled(int R,int C,char board[][]){
+        for(int row=0;row<R;row++){
+            for(int col=0;col<C;col++){
+                if(board[row][col]=='.'){
+                    return new Cell(row,col);
+                }
+            }
+        }
+        return null;
+    }
+}
